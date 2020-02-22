@@ -10,7 +10,6 @@ Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'py', 'go'] }
 Plug 'sgur/vim-textobj-parameter'
-
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -18,11 +17,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/vim-easy-align'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-
-Plug 'preservim/nerdtree'
+Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'preservim/nerdcommenter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'ycm-core/YouCompleteMe'
@@ -31,9 +28,7 @@ Plug 'ycm-core/YouCompleteMe'
 Plug 'skywind3000/quickmenu.vim'
 Plug 'skywind3000/asyncrun.vim'
 "------------------------------------韦一笑------------------------------
-" 延迟按需加载，使用到命令的时候再加载或者打开对应文件类型才加载
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'fatih/vim-go', { 'tag': '*' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Initialize plugin system
 call plug#end()
 

@@ -1,0 +1,255 @@
+" An example for a gvimrc file.
+" The commands in this are executed when the GUI is started, after the vimrc
+" has been executed.
+"
+" Maintainer:	Bram Moolenaar <Bram@vim.org>
+" Last change:	2016 Apr 05
+"
+" To use it, copy it to
+"     for Unix and OS/2:  ~/.gvimrc
+"	      for Amiga:  s:.gvimrc
+"  for MS-DOS and Win32:  $VIM\_gvimrc
+"	    for OpenVMS:  sys$login:.gvimrc
+
+" Make external commands work through a pipe instead of a pseudo-tty
+"set noguipty
+
+" set the X11 font to use
+" set guifont=-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
+
+set ch=2		" Make command line two lines high
+
+set mousehide		" Hide the mouse when typing text
+
+" Make shift-insert work like in Xterm
+map <S-Insert> <MiddleMouse>
+map! <S-Insert> <MiddleMouse>
+
+" Only do this for Vim version 5.0 and later.
+if version >= 500
+
+  " Switch on syntax highlighting if it wasn't on yet.
+  if !exists("syntax_on")
+    syntax on
+  endif
+
+  " For Win32 version, have "K" lookup the keyword in a help file
+  "if has("win32")
+  "  let winhelpfile='windows.hlp'
+  "  map K :execute "!start winhlp32 -k <cword> " . winhelpfile <CR>
+  "endif
+
+  " Set nice colors
+  " background for normal text is light grey
+  " Text below the last line is darker grey
+  " Cursor is green, Cyan when ":lmap" mappings are active
+  " Constants are not underlined but have a slightly lighter background
+  highlight Normal guibg=grey90
+  highlight Cursor guibg=Green guifg=NONE
+  highlight lCursor guibg=Cyan guifg=NONE
+  highlight NonText guibg=grey80
+  highlight Constant gui=NONE guibg=grey95
+  highlight Special gui=NONE guibg=grey95
+
+endif
+
+" SysWarningSetting
+" {
+    let g:ale_sign_error = "\ue009\ue009"
+    hi! clear SpellBad
+    hi! clear SpellCap
+    hi! clear SpellRare
+    hi! SpellBad gui=undercurl guisp=red
+    hi! SpellCap gui=undercurl guisp=blue
+    hi! SpellRare gui=undercurl guisp=magenta
+" }
+" PersonalSetting
+" {
+syntax enable
+" set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
+set cursorline
+set relativenumber
+set wildmenu
+set softtabstop=4 shiftwidth=4 expandtab
+set lazyredraw
+set nobackup
+set noswapfile
+set clipboard+=unnamed
+set winaltkeys=no
+set guifont=Fira\ Code:h12
+" ,<space> to close search hilight
+nnoremap ,<space> :nohlsearch<CR>   
+cnoremap <C-a> <home>
+cnoremap <C-e> <end>
+" set background=dark
+" colorscheme gruvbox
+  " hybrid_material
+  " {{
+    set background=dark
+    colorscheme hybrid_material
+    let g:enable_bold_font = 1
+    let g:enable_italic_font = 1
+    let g:hybrid_transparent_background = 1
+    if (has("termguicolors"))
+     set termguicolors
+    endif
+    let g:airline_theme = "hybrid"
+  " }}
+" }
+" PlugSetting 
+" {
+
+  " vim-goSetting{
+        let g:go_def_mode='gopls'
+        let g:go_info_mode='gopls'
+  " }
+  " SnippetsSettings
+  " {{
+        let g:UltiSnipsExpandTrigger = '<tab>'
+        let g:UltiSnipsJumpForwardTrigger = '<tab>' 
+        let g:UltiSnipsJumpBackwardTrigger = '<s-tab>' 
+        let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+  " }}
+  " CompileSettings
+  " {{
+    " 自动打开 quickfix window ，高度为 6
+    let g:asyncrun_open = 6
+
+    " 任务结束时候响铃提醒
+    let g:asyncrun_bell = 1
+    " 定义项目根目录标记
+    let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml'] 
+    " F10 打开/关闭 Quickfix 窗口
+    nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
+    " F9 为编译单文件:
+    nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+    " F7 编译整个项目:
+    nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+    " F6 执行项目测试:
+    nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
+    " F4 使用 cmake 生成 Makefile:
+    nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
+    " F5 运行单文件(不弹窗):
+    " nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+    " F5 运行单文件(弹窗):
+    nnoremap <silent> <F5> :AsyncRun -cwd=$(VIM_FILEDIR) -mode=4 "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+    " F8 运行当前项目(不弹窗):
+    " nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
+    " F8 运行当前项目(弹窗):
+    nnoremap <silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>
+  " }}
+  " AleSettings
+  " {{
+    let g:ale_linters_explicit = 1
+    let g:ale_completion_delay = 500
+    let g:ale_echo_delay = 20
+    let g:ale_lint_delay = 500
+    let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+    let g:ale_lint_on_text_changed = 'normal'
+    let g:ale_lint_on_insert_leave = 1
+    let g:airline#extensions#ale#enabled = 1
+    let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+    let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+    let g:ale_c_cppcheck_options = ''
+    let g:ale_cpp_cppcheck_options = ''
+  " }}
+  " LeaderFSettings
+  " {{
+  let mapleader = "\<Space>"
+  nnoremap <Leader>a :echo "Hey there space"<CR>
+
+  " don't show the help in normal mode
+  let g:Lf_HideHelp = 1
+  let g:Lf_UseCache = 0
+  let g:Lf_UseVersionControlTool = 0
+  let g:Lf_IgnoreCurrentBufferName = 1
+  " popup mode
+  let g:Lf_WindowPosition = 'popup'
+  let g:Lf_PreviewInPopup = 1
+  let g:Lf_ShortcutF = '<C-P>'
+  let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font':"Fira Code"  }
+  let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+  let g:Lf_ShortcutF = "<leader>ff"
+  noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+  noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+  noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+  noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+  noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+  noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+  " search visually selected text literally
+  xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+  noremap go :<C-U>Leaderf! rg --recall<CR>
+  let g:Lf_GtagsAutoGenerate = 0
+  let g:Lf_Gtagslabel = 'native-pygments'
+  let g:Lf_StlColorscheme = 'hybrid'
+  nnoremap <leader>k  <C-W><C-K>
+  nnoremap <leader>j  <C-W><C-J>
+  nnoremap <leader>h  <C-W><C-h>
+  nnoremap <leader>l  <C-W><C-l>
+  " }}
+  " Airline
+  " {{
+  let g:airline_enabled = 1
+  let g:airline_powerline_fonts = 0
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+  " }}
+  "  powerline symbols
+  " {{
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = '☰'
+  let g:airline_symbols.maxlinenr = ''
+  let g:airline_symbols.dirty='⚡'
+  " }}
+  " NERDTree
+  " {{
+  let g:NERDTreeIndicatorMapCustom = {
+      \ "Modified"  : "✹",
+      \ "Staged"    : "✚",
+      \ "Untracked" : "✭",
+      \ "Renamed"   : "➜",
+      \ "Unmerged"  : "═",
+      \ "Deleted"   : "✖",
+      \ "Dirty"     : "✗",
+      \ "Clean"     : "✔︎",
+      \ 'Ignored'   : '☒',
+      \ "Unknown"   : "?"
+      \ }
+
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  " map <c-n> :NERDTreeToggle<CR>
+  map <silent> - :NERDTreeToggle<CR>
+
+  " Add spaces after comment delimiters by default
+  let g:NERDSpaceDelims = 1
+
+  " Use compact syntax for prettified multi-line comments
+  let g:NERDCompactSexyComs = 1
+
+  " Align line-wise comment delimiters flush left instead of following code indentation
+  let g:NERDDefaultAlign = 'left'
+
+  " Set a language to use its alternate delimiters by default
+  let g:NERDAltDelims_java = 1
+
+  " Add your own custom formats or override the defaults
+  let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+  " Allow commenting and inverting empty lines (useful when commenting a region)
+  let g:NERDCommentEmptyLines = 1
+
+  " Enable trimming of trailing whitespace when uncommenting
+  let g:NERDTrimTrailingWhitespace = 1
+
+  " Enable NERDCommenterToggle to check all selected lines is commented or not 
+  let g:NERDToggleCheckAllLines = 1
+  " }}
+" }

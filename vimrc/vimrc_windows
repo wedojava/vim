@@ -1,0 +1,33 @@
+set fileencodings=utf-8,gbk 
+set encoding=utf-8
+set pythonthreedll=python38.dll
+" vim-plug {{{
+call plug#begin('~\vimfiles\plugged')
+Plug 'junegunn/vim-easy-align'
+Plug 'skywind3000/vim-quickui'
+Plug 'skywind3000/vim-terminal-help'
+Plug 'skywind3000/asyncrun.vim'
+" 延迟按需加载，使用到命令的时候再加载或者打开对应文件类型才加载
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'preservim/nerdcommenter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'morhetz/gruvbox'
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+Plug 'dense-analysis/ale'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'go'] }
+Plug 'sgur/vim-textobj-parameter'
+Plug 'mhinz/vim-startify'
+Plug 'jiangmiao/auto-pairs'
+call plug#end()
+" }}}
