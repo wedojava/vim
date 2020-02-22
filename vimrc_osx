@@ -1,0 +1,209 @@
+call plug#begin('~/.vim/plugged')
+
+Plug 'junegunn/vim-easy-align'
+" diw 删除光标所在单词，ciw 改写单词，vip 选中段落等，ci"/ci( 改写引号/括号中的内容。
+" i, 和 a, ：参数对象，写代码一半在修改，现在可以用 di, 或 ci, 一次性删除/改写当前参数
+" ii 和 ai ：缩进对象，同一个缩进层次的代码，可以用 vii 选中，dii / cii 删除或改写
+" if 和 af ：函数对象，可以用 vif / dif / cif 来选中/删除/改写函数的内容
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'py', 'go'] }
+Plug 'sgur/vim-textobj-parameter'
+
+Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'mhinz/vim-startify'
+Plug 'junegunn/vim-easy-align'
+Plug 'jiangmiao/auto-pairs'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
+Plug 'preservim/nerdtree'
+Plug 'preservim/nerdcommenter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'ycm-core/YouCompleteMe'
+
+"------------------------------------韦一笑------------------------------
+Plug 'skywind3000/quickmenu.vim'
+Plug 'skywind3000/asyncrun.vim'
+"------------------------------------韦一笑------------------------------
+" 延迟按需加载，使用到命令的时候再加载或者打开对应文件类型才加载
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'fatih/vim-go', { 'tag': '*' }
+" Initialize plugin system
+call plug#end()
+
+"------------------------------------韦一笑------------------------------
+" 自动打开 quickfix window ，高度为 6
+let g:asyncrun_open = 6
+" 任务结束时候响铃提醒
+let g:asyncrun_bell = 1
+" F10 打开/关闭 Quickfix 窗口
+nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
+" F9 为编译单文件:
+nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+" F5 运行：
+nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+" 用 “<root>” 或者 “$(VIM_ROOT)”来表示项目所在路径，放一个空的 .root
+" 文件到你的项目目录下就行了.
+" F7 编译整个项目：
+nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml']
+" F8 运行当前项目：
+nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
+" F6 执行测试(你的 makefile 中需要定义怎么 run)：
+nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
+" 如果你使用了 cmake 的话，还可以照葫芦画瓢
+" F4 为更新 Makefile 文件：
+nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
+" -mode=4 选项可以跟 Visual Studio 执行命令行工具一样，弹出一个新的 cmd.exe窗口来运行程序或者项目
+" Windows 下使用 GVim 的话，可以弹出新的 cmd.exe 窗口来运行刚才的程序：
+" nnoremap <silent> <F5> :AsyncRun -cwd=$(VIM_FILEDIR) -mode=4 \"$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+" nnoremap <silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>
+" F4：使用 cmake 生成 Makefile
+" F5：单文件：运行
+" F6：项目：测试
+" F7：项目：编译
+" F8：项目：运行
+" F9：单文件：编译
+" F10：打开/关闭底部的 quickfix 窗口
+"------------------------------------韦一笑------------------------------
+
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
+" Personal settings
+syntax enable
+set guifont=Fira\ Code:h12
+" set background=dark
+" colorscheme gruvbox
+" 设置空白字符的视觉提示
+set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
+set cursorline
+set relativenumber
+set wildmenu
+set softtabstop=4 shiftwidth=4 expandtab
+set lazyredraw
+" ,<space> to close search hilight
+nnoremap ,<space> :nohlsearch<CR>
+
+" LeaderF Settings
+let mapleader = "\<Space>"
+nnoremap <Leader>a :echo "Hey there space"<CR>
+
+" don't show the help in normal mode
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+" popup mode
+let g:Lf_WindowPosition = 'popup'
+
+let g:Lf_PreviewInPopup = 1
+
+let g:Lf_ShortcutF = '<C-P>'
+
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font':"Fira Code"  }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+
+noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+" search visually selected text literally
+xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+noremap go :<C-U>Leaderf! rg --recall<CR>
+
+let g:Lf_GtagsAutoGenerate = 0
+let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_StlColorscheme = 'gruvbox'
+nnoremap <leader>k  <C-W><C-K>
+nnoremap <leader>j  <C-W><C-J>
+nnoremap <leader>h  <C-W><C-h>
+nnoremap <leader>l  <C-W><C-l>
+
+let g:airline_enabled = 1
+let g:airline_powerline_fonts = 0
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.dirty='⚡'
+
+" NERDTree
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" map <c-n> :NERDTreeToggle<CR>
+map <silent> - :NERDTreeToggle<CR>
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not
+let g:NERDToggleCheckAllLines = 1
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:ycm_key_list_select_completion = ['<C-n>', '<space>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsSnippetDirectories=["UltiSnips","mysnippets"]
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+
