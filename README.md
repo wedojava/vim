@@ -18,6 +18,13 @@ Get repository:
 git clone https://github.com/wedojava/vim.git
 ```
 
+# Supplement
+
+## get snippet
+
+go:
+
+https://raw.githubusercontent.com/fatih/vim-go/master/gosnippets/UltiSnips/go.snippets
 
 
 Repository to settings:

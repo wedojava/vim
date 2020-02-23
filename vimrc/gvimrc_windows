@@ -63,193 +63,335 @@ endif
     hi! SpellCap gui=undercurl guisp=blue
     hi! SpellRare gui=undercurl guisp=magenta
 " }
-" PersonalSetting
-" {
-syntax enable
+
+
+""""""""""""""""""""""
+"     MySettings     "
+""""""""""""""""""""""
+" My settings fetch from internet
 " set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
 set cursorline
 set relativenumber
-set wildmenu
-set softtabstop=4 shiftwidth=4 expandtab
-set lazyredraw
-set nobackup
-set noswapfile
-set clipboard+=unnamed
-set winaltkeys=no
+" set wildmenu
+" set softtabstop=4 shiftwidth=4 expandtab
+" set lazyredraw
+" set nobackup
+" set noswapfile
+" set backspace=indent,eol,start
+" set backspace=2
+" set clipboard+=unnamed
+" set winaltkeys=no
+set signcolumn=number
+set timeoutlen=1000 ttimeoutlen=0
+
+
+"https://github.com/fatih/vim-go-tutorial/blob/master/vimrc
+""""""""""""""""""""""
+"      Settings      "
+""""""""""""""""""""""
+set nocompatible                " Enables us Vim specific features
+filetype off                    " Reset filetype detection first ...
+filetype plugin indent on       " ... and enable filetype detection
+set ttyfast                     " Indicate fast terminal conn for faster redraw
+set laststatus=2                " Show status line always
+set encoding=utf-8              " Set default encoding to UTF-8
+" set autoread                    " Automatically read changed files
+set autoindent                  " Enabile Autoindent
+set backspace=indent,eol,start  " Makes backspace key more powerful.
+set incsearch                   " Shows the match while typing
+set hlsearch                    " Highlight found searches
+set noerrorbells                " No beeps
+set number                      " Show line numbers
+set showcmd                     " Show me what I'm typing
+set noswapfile                  " Don't use swapfile
+set nobackup                    " Don't create annoying backup files
+set splitright                  " Vertical windows should be split to right
+set splitbelow                  " Horizontal windows should split to bottom
+set autowrite                   " Automatically save before :next, :make etc.
+set hidden                      " Buffer should still exist if window is closed
+set fileformats=unix,dos,mac    " Prefer Unix over Windows over OS 9 formats
+set noshowmatch                 " Do not show matching brackets by flickering
+" set noshowmode                  " We show the mode with airline or lightline
+set ignorecase                  " Search case insensitive...
+set smartcase                   " ... but not it begins with upper case
+set completeopt=menu,menuone    " Show popup menu, even if there is one entry
+set pumheight=10                " Completion window max size
+" set nocursorcolumn              " Do not highlight column (speeds up highlighting)
+" set nocursorline                " Do not highlight cursor (speeds up highlighting)
+set lazyredraw                  " Wait to redraw
+" Enable to copy to clipboard for operations like yank, delete, change and put
+" http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
+if has('unnamedplus')
+  set clipboard^=unnamed
+  set clipboard^=unnamedplus
+endif
+
+" Colorscheme
+syntax enable
 set guifont=Fira\ Code:h12
+" This is hybrid_material
+set background=dark
+colorscheme hybrid_material
+let g:enable_bold_font = 1
+let g:enable_italic_font = 1
+let g:hybrid_transparent_background = 1
+if (has("termguicolors"))
+  set termguicolors
+endif
+let g:airline_theme = "hybrid"
+
+
+""""""""""""""""""""""
+"      Mappings      "
+""""""""""""""""""""""
+
+" Jump to next error with Ctrl-n and previous error with Ctrl-m. Close the
+" quickfix window with <leader>a
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
 " ,<space> to close search hilight
 nnoremap ,<space> :nohlsearch<CR>   
 cnoremap <C-a> <home>
 cnoremap <C-e> <end>
-" set background=dark
-" colorscheme gruvbox
-  " hybrid_material
-  " {{
-    set background=dark
-    colorscheme hybrid_material
-    let g:enable_bold_font = 1
-    let g:enable_italic_font = 1
-    let g:hybrid_transparent_background = 1
-    if (has("termguicolors"))
-     set termguicolors
-    endif
-    let g:airline_theme = "hybrid"
-  " }}
-" }
-" PlugSetting 
-" {
+" Visual linewise up and down by default (and use gj gk to go quicker)
+noremap <Up> gk
+noremap <Down> gj
+noremap j gj
+noremap k gk
+" Search mappings: These will make it so that going to the next one in a
+" search will center on the line it's found in.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+" Act like D and C
+nnoremap Y y$
+" ? Enter automatically into the files directory
+autocmd BufEnter * silent! lcd %:p:h
 
-  " vim-goSetting{
-        let g:go_def_mode='gopls'
-        let g:go_info_mode='gopls'
-  " }
-  " SnippetsSettings
-  " {{
-        let g:UltiSnipsExpandTrigger = '<tab>'
-        let g:UltiSnipsJumpForwardTrigger = '<tab>' 
-        let g:UltiSnipsJumpBackwardTrigger = '<s-tab>' 
-        let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
-  " }}
-  " CompileSettings
-  " {{
-    " 自动打开 quickfix window ，高度为 6
-    let g:asyncrun_open = 6
 
-    " 任务结束时候响铃提醒
-    let g:asyncrun_bell = 1
-    " 定义项目根目录标记
-    let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml'] 
-    " F10 打开/关闭 Quickfix 窗口
-    nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
-    " F9 为编译单文件:
-    nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
-    " F7 编译整个项目:
-    nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
-    " F6 执行项目测试:
-    nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
-    " F4 使用 cmake 生成 Makefile:
-    nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
-    " F5 运行单文件(不弹窗):
-    " nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
-    " F5 运行单文件(弹窗):
-    nnoremap <silent> <F5> :AsyncRun -cwd=$(VIM_FILEDIR) -mode=4 "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
-    " F8 运行当前项目(不弹窗):
-    " nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
-    " F8 运行当前项目(弹窗):
-    nnoremap <silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>
-  " }}
-  " AleSettings
-  " {{
-    let g:ale_linters_explicit = 1
-    let g:ale_completion_delay = 500
-    let g:ale_echo_delay = 20
-    let g:ale_lint_delay = 500
-    let g:ale_echo_msg_format = '[%linter%] %code: %%s'
-    let g:ale_lint_on_text_changed = 'normal'
-    let g:ale_lint_on_insert_leave = 1
-    let g:airline#extensions#ale#enabled = 1
-    let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-    let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
-    let g:ale_c_cppcheck_options = ''
-    let g:ale_cpp_cppcheck_options = ''
-  " }}
-  " LeaderFSettings
-  " {{
-  let mapleader = "\<Space>"
-  nnoremap <Leader>a :echo "Hey there space"<CR>
+"""""""""""""""""""""
+"      Plugins      "
+"""""""""""""""""""""
 
-  " don't show the help in normal mode
-  let g:Lf_HideHelp = 1
-  let g:Lf_UseCache = 0
-  let g:Lf_UseVersionControlTool = 0
-  let g:Lf_IgnoreCurrentBufferName = 1
-  " popup mode
-  let g:Lf_WindowPosition = 'popup'
-  let g:Lf_PreviewInPopup = 1
-  let g:Lf_ShortcutF = '<C-P>'
-  let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font':"Fira Code"  }
-  let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
-  let g:Lf_ShortcutF = "<leader>ff"
-  noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-  noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-  noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-  noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-  noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
-  noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
-  " search visually selected text literally
-  xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-  noremap go :<C-U>Leaderf! rg --recall<CR>
-  let g:Lf_GtagsAutoGenerate = 0
-  let g:Lf_Gtagslabel = 'native-pygments'
-  let g:Lf_StlColorscheme = 'hybrid'
-  nnoremap <leader>k  <C-W><C-K>
-  nnoremap <leader>j  <C-W><C-J>
-  nnoremap <leader>h  <C-W><C-h>
-  nnoremap <leader>l  <C-W><C-l>
-  " }}
-  " Airline
-  " {{
-  let g:airline_enabled = 1
-  let g:airline_powerline_fonts = 0
-  if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+" vim-go
+let g:go_fmt_command = "goimports"
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
+
+" Open :GoDeclsDir with ctrl-g
+nmap <C-g> :GoDeclsDir<cr>
+imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
+
+
+augroup go
+  autocmd!
+
+  " Show by default 4 spaces for a tab
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+
+  " :GoBuild and :GoTestCompile
+  autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+  " :GoTest
+  autocmd FileType go nmap <leader>t  <Plug>(go-test)
+
+  " :GoRun
+  autocmd FileType go nmap <leader>r  <Plug>(go-run)
+
+  " :GoDoc
+  autocmd FileType go nmap <Leader>d <Plug>(go-doc)
+
+  " :GoCoverageToggle
+  autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+
+  " :GoInfo
+  autocmd FileType go nmap <Leader>i <Plug>(go-info)
+
+  " :GoMetaLinter
+  autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
+
+  " :GoDef but opens in a vertical split
+  autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
+  " :GoDef but opens in a horizontal split
+  autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
+
+  " :GoAlternate  commands :A, :AV, :AS and :AT
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+augroup END
+
+" build_go_files is a custom function that builds or compiles the test file.
+" It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
   endif
-  " }}
-  "  powerline symbols
-  " {{
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = '☰'
-  let g:airline_symbols.maxlinenr = ''
-  let g:airline_symbols.dirty='⚡'
-  " }}
-  " NERDTree
-  " {{
-  let g:NERDTreeIndicatorMapCustom = {
-      \ "Modified"  : "✹",
-      \ "Staged"    : "✚",
-      \ "Untracked" : "✭",
-      \ "Renamed"   : "➜",
-      \ "Unmerged"  : "═",
-      \ "Deleted"   : "✖",
-      \ "Dirty"     : "✗",
-      \ "Clean"     : "✔︎",
-      \ 'Ignored'   : '☒',
-      \ "Unknown"   : "?"
-      \ }
+endfunction
 
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-  " map <c-n> :NERDTreeToggle<CR>
-  map <silent> - :NERDTreeToggle<CR>
+" YouCompleteMe
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:ycm_key_list_stop_completion = ['<C-y>']
+let g:ycm_key_invoke_completion = '<C-q>'
+let g:ycm_key_detailed_diagnostics = '<leader>d'
 
-  " Add spaces after comment delimiters by default
-  let g:NERDSpaceDelims = 1
+" UltiSnips
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"  
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 
-  " Use compact syntax for prettified multi-line comments
-  let g:NERDCompactSexyComs = 1
 
-  " Align line-wise comment delimiters flush left instead of following code indentation
-  let g:NERDDefaultAlign = 'left'
+"""""""""""""""""""""
+"    C Compiling    "
+"""""""""""""""""""""
 
-  " Set a language to use its alternate delimiters by default
-  let g:NERDAltDelims_java = 1
+" AsyncRun
+" 自动打开 quickfix window ，高度为 6
+let g:asyncrun_open = 6
 
-  " Add your own custom formats or override the defaults
-  let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" 任务结束时候响铃提醒
+let g:asyncrun_bell = 1
+" 定义项目根目录标记
+let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml'] 
+" F10 打开/关闭 Quickfix 窗口
+nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
+" F9 为编译单文件:
+nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+" F7 编译整个项目:
+nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+" F6 执行项目测试:
+nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
+" F4 使用 cmake 生成 Makefile:
+nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
+" F5 运行单文件(不弹窗):
+" nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+" F5 运行单文件(弹窗):
+nnoremap <silent> <F5> :AsyncRun -cwd=$(VIM_FILEDIR) -mode=4 "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+" F8 运行当前项目(不弹窗):
+" nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
+" F8 运行当前项目(弹窗):
+nnoremap <silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>
 
-  " Allow commenting and inverting empty lines (useful when commenting a region)
-  let g:NERDCommentEmptyLines = 1
+" AleSettings
+let g:ale_linters_explicit = 1
+let g:ale_completion_delay = 500
+let g:ale_echo_delay = 20
+let g:ale_lint_delay = 500
+let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:airline#extensions#ale#enabled = 1
+let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+let g:ale_c_cppcheck_options = ''
+let g:ale_cpp_cppcheck_options = ''
+"let g:ale_linters = {
+""	\ 'go': ['gopls']
+""	\}
 
-  " Enable trimming of trailing whitespace when uncommenting
-  let g:NERDTrimTrailingWhitespace = 1
+" LeaderF
+let mapleader = "\<Space>"
+nnoremap <Leader>a :echo "Hey there space"<CR>
 
-  " Enable NERDCommenterToggle to check all selected lines is commented or not 
-  let g:NERDToggleCheckAllLines = 1
-  " }}
-" }
+" don't show the help in normal mode
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+" popup mode
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_ShortcutF = '<C-P>'
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font':"Fira Code"  }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+" search visually selected text literally
+xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+noremap go :<C-U>Leaderf! rg --recall<CR>
+let g:Lf_GtagsAutoGenerate = 0
+let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_StlColorscheme = 'hybrid'
+nnoremap <leader>k  <C-W><C-K>
+nnoremap <leader>j  <C-W><C-J>
+nnoremap <leader>h  <C-W><C-h>
+nnoremap <leader>l  <C-W><C-l>
+
+" Airline
+let g:airline_enabled = 1
+let g:airline_powerline_fonts = 0
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.dirty='⚡'
+
+" NERDTree
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+map <silent> - :NERDTreeToggle<CR>
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1

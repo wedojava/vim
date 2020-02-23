@@ -1,5 +1,12 @@
-set fileencodings=utf-8,gbk 
 set encoding=utf-8
+set langmenu=zh_CN.UTF-8
+language message zh_CN.UTF-8
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+if has("win32")
+set fileencoding=chinese
+else
+set fileencoding=utf-8
+endi
 set pythonthreedll=python38.dll
 " vim-plug {{{
 call plug#begin('~\vimfiles\plugged')
@@ -28,6 +35,7 @@ Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'go'] }
 Plug 'sgur/vim-textobj-parameter'
 Plug 'mhinz/vim-startify'
-Plug 'jiangmiao/auto-pairs'
+Plug 'airblade/vim-gitgutter'
+Plug 'Raimondi/delimitMate'
 call plug#end()
 " }}}
