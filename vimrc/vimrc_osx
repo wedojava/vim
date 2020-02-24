@@ -74,8 +74,8 @@ let g:go_info_mode='gopls'
 " Personal settings
 syntax enable
 set guifont=Fira\ Code:h12
-" set background=dark
-" colorscheme gruvbox
+set background=dark
+colorscheme gruvbox
 " 设置空白字符的视觉提示
 set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
 set cursorline
