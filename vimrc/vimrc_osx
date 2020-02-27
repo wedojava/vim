@@ -43,7 +43,7 @@ nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
 " F9 为编译单文件:
 nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 " F5 运行：
-nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+" nnoremap <silent> <F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 " 用 “<root>” 或者 “$(VIM_ROOT)”来表示项目所在路径，放一个空的 .root
 " 文件到你的项目目录下就行了.
 " F7 编译整个项目：
@@ -58,7 +58,7 @@ nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
 nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
 " -mode=4 选项可以跟 Visual Studio 执行命令行工具一样，弹出一个新的 cmd.exe窗口来运行程序或者项目
 " Windows 下使用 GVim 的话，可以弹出新的 cmd.exe 窗口来运行刚才的程序：
-" nnoremap <silent> <F5> :AsyncRun -cwd=$(VIM_FILEDIR) -mode=4 \"$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+nnoremap <silent> <F5> :AsyncRun -cwd=$(VIM_FILEDIR) -mode=4 "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
 " nnoremap <silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>
 " F4：使用 cmake 生成 Makefile
 " F5：单文件：运行
@@ -86,6 +86,12 @@ if (has("termguicolors"))
   set termguicolors
 endif
 let g:airline_theme = "hybrid"
+
+" if $TERM_PROGRAM =~ "iTerm"
+let &t_SI = "\<Esc>]50;CursorShape=1\x7" " 插入模式改为细光标
+let &t_EI = "\<Esc>]50;CursorShape=0\x7" " 其他模式还是粗光标
+" endif
+
 
 " 设置空白字符的视觉提示
 set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
@@ -154,7 +160,214 @@ let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.dirty='⚡'
 
+"-----------------------------------------------------------------
+"让vim记忆上次编辑的位置
+autocmd BufReadPost *
+            \ if line("'\"")>0&&line("'\"")<=line("$") |
+            \   exe "normal g'\"" |
+            \ endif
+"-----------------------------------------------------------------
+" help
+" :h 纵向分整个查看 显示在右侧的分屏
+augroup helpfiles
+  au!
+  au BufRead,BufEnter */doc/* wincmd L
+augroup END
+
+nnoremap <c-h> :h<space>
+vnoremap <c-h> :<c-u>h<space>
+inoremap <c-h> <c-o>:h<space>
+
+"=========================================================================
+" 标签页、窗口、buffer操作
+"=========================================================================
+" 标签页
+" alt+t 新开一空标签页
+nnoremap  †   :tabnew<CR>
+vnoremap  †   <esc>:tabnew<CR>v
+inoremap  †   <c-o>:tabnew<CR>
+" 开一个文件到新标签页
+" <esc> alt+t
+nnoremap <esc>†  :tabedit<space>
+vnoremap <esc>†  <esc>:tabedit<space>
+inoremap <esc>†  <c-o>:tabedit<space>
+" shift+left 左一个标签页
+nnoremap <S-Left> :tabprev<CR>
+vnoremap <S-Left> <esc>:tabprev<CR>v
+inoremap <S-Left> <c-o>:tabprev<CR>
+" shift+right 右一个标签页
+nnoremap <S-Right> :tabnext<CR>
+vnoremap <S-Right> <esc>:tabnext<CR>v
+inoremap <S-Right> <c-o>:tabnext<CR>
+"-----------------------------------------------------------------
+" alt  开文件
+" alt+n  （需事先手动保存）关闭本buffer，并开一个新buffer
+nnoremap  ᜩ  :bd\|enew<cr>
+vnoremap  ᜩ  <esc>:bd\|enew<cr>
+inoremap  ᜩ  <c-o>:bd\|enew<cr>
+" <esc>ctrl+n  （需要事前手动保存）关闭本buffer，开一个文件到新buffer
+nnoremap  <esc>ᜩ  :bd\|edit<space>
+vnoremap  <esc>ᜩ  <esc>:bd\|edit<space>
+inoremap  <esc>ᜩ  <c-o>:bd\|edit<space>
+"-----------------------------------------------------------------
+" ctrl+alt: buffer操作
+"-----------------------------------------------------------------
+" nnoremap ᜩ  :update<cr>:bd!|enew<cr>
+" vnoremap ᜩ  <esc>:update<cr>:bd!|enew<cr>
+" inoremap ᜩ  <c-o>:update<cr><c-o>:bd!|enew<cr>
+" alt+ctrl+n  开一空白个新buffer
+nnoremap ᜦ  :update<cr>:enew<cr>
+vnoremap ᜦ  <esc>:update<cr>:enew<cr>
+inoremap ᜦ  <c-o>:update<cr><c-o>:enew<cr>
+" <esc>alt+crtl+n  开一个文件为新buffer
+nnoremap <esc>ᜦ  :update<cr>:edit<space>
+vnoremap <esc>ᜦ  <esc>:update<cr>:edit<space>
+inoremap <esc>ᜦ  <c-o>:update<cr><c-o>:edit<space>
+" alt+ctrl+b
+nnoremap ᜧ  :update<cr>:buffers<cr>
+vnoremap ᜧ  <esc>:update<cr>:buffers<cr>
+inoremap ᜧ  <c-o>:update<cr><c-o>:buffers<cr>
+" alt+ctrl+[
+nnoremap ᜥ  :update<cr>:bnext<CR>
+vnoremap ᜥ  <esc>:update<cr>:bnext<CR>
+inoremap ᜥ  <c-o>:update<cr><c-o>:bnext<CR>
+" alt+ctrl+]
+nnoremap ᜣ :update<cr>:bprevious<CR>
+vnoremap ᜣ <esc>:update<cr>:bprevious<CR>
+inoremap ᜣ <c-o>:update<cr><c-o>:bprevious<CR>
+" alt+ctrl+w 关闭当前buffer
+nnoremap ᜨ :bd<CR>
+vnoremap ᜨ <esc>:bd<CR>
+inoremap ᜨ <c-o>:bd<CR>
+"-----------------------------------------------------------------
+" alt、ctrl+alt: 窗口操作
+"-----------------------------------------------------------------
+" 窗口分割
+set splitright    " 默认开在右侧
+" alt+\：垂直分割窗口
+nnoremap « :vsp<cr>
+vnoremap « <esc>:vsp<cr>v
+inoremap «  <c-o>:vsp<cr>
+" <esc> alt+\：垂直分割窗口 开文件
+nnoremap <esc>« :vsp<space>
+vnoremap <esc>« <esc>:vsp<space>
+inoremap <esc>«  <c-o>:vsp<space>
+
+set splitbelow  " 默认开在下边
+" alt+shift+\：水平分割窗口
+nnoremap » :sp<cr>
+vnoremap » <esc>:sp<cr>v
+inoremap » <c-o>:sp<cr>
+" <esc> alt+shift+\：水平分割窗口  开文件
+nnoremap <esc>» :sp<space>
+vnoremap <esc>» <esc>:sp<space>
+inoremap <esc>» <c-o>:sp<space>
+
+" 分屏线从虚线改为实线
+" hi VertSplit  term=reverse  cterm=reverse  gui=none
+" hi VertSplit guibg=#282828 guifg=#181A1F
+set fillchars=vert:│,fold:·
+"-----------------------------------------------------------------
+" alt+Fn+上下左右：去往上下左右一个窗口
+" alt+ctrl+left
+map   ᜉ  <plug>(LWin)
+map!   ᜉ <plug>(LWin)
+noremap  <plug>(LWin)  <c-w>h
+inoremap <plug>(LWin)  <c-o><c-w>h
+    " " 普通终端
+" noremap  <esc>[1;9H <c-w>h
+" inoremap <esc>[1;9H <c-o><c-w>h
+    " " tmux下
+" noremap  <esc><esc>[1~ <c-w>h
+" inoremap <esc><esc>[1~ <c-o><c-w>h
+" alt+ctrl+right
+map  ᜊ   <plug>(RWin)
+map! ᜊ   <plug>(RWin)
+noremap  <plug>(RWin)   <c-w>l
+inoremap <plug>(RWin)   <c-o><c-w>l
+" 普通终端
+" noremap  <esc>[1;9F <c-w>l
+" inoremap <esc>[1;9F <c-o><c-w>l
+    " " tmux下
+" noremap  <esc><esc>[4~ <c-w>l
+" inoremap <esc><esc>[4~ <c-o><c-w>l
+" alt+ctrl+up
+map  ᜋ   <plug>(UWin)
+map!  ᜋ  <plug>(UWin)
+noremap  <plug>(UWin)  <c-w>k
+inoremap <plug>(UWin)  <c-o><c-w>k
+" noremap  <esc><esc>[5~ <c-w>k
+" inoremap <esc><esc>[5~ <c-o><c-w>k
+" alt+shift+doen
+map   ᜌ    <plug>(DWin)
+map!   ᜌ   <plug>(DWin)
+noremap    <plug>(DWin)   <c-w>j
+inoremap   <plug>(DWin)   <c-o><c-w>j
+" noremap  <esc><esc>[6~ <c-w>j
+" inoremap <esc><esc>[6~ <c-o><c-w>j
+"-----------------------------------------------------------------
+" 窗口尺寸
+" 变宽：alt +
+nnoremap <silent> ≠ :exe "vertical resize " . (winwidth(0) * 15/14)<CR>
+vnoremap <silent> ≠ <esc>:exe "vertical resize " . (winwidth(0) * 15/14)<CR>gv
+inoremap <silent> ≠ <c-o>:exe "vertical resize " . (winwidth(0) * 15/14)<CR>
+" 变窄  alt -
+nnoremap <silent> – :exe "vertical resize " . (winwidth(0) * 14/15)<CR>
+vnoremap <silent> – <esc>:exe "vertical resize " . (winwidth(0) * 14/15)<CR>gv
+inoremap <silent> – <c-o>:exe "vertical resize " . (winwidth(0) * 14/15)<CR>
+" 变高  shift alt +
+nnoremap <silent> ± :exe "resize " . (winheight(0) * 10/9)<CR>
+vnoremap <silent> ± <esc>:exe "resize " . (winheight(0) * 10/9)<CR>gv
+inoremap <silent> ± <c-o>:exe "resize " . (winheight(0) * 10/9)<CR>
+" 变矮  shift alt -
+nnoremap <silent> ᜭ :exe "resize " . (winheight(0) * 9/10)<CR>
+vnoremap <silent> ᜭ <esc>:exe "resize " . (winheight(0) * 9/10)<CR>gv
+inoremap <silent> ᜭ <c-o>:exe "resize " . (winheight(0) * 9/10)<CR>
+
+
 " NERDTree
+
+let NERDTreeMapOpenInTab='<ENTER>'   " 在tree中，回车将文件开新tab
+let g:TreeOnOpen=0                   " 开vim、进入新tab 即开nerdtree 且光标移动到文本窗口
+
+"-----------------------------------------------------------------
+" 开启vim时自动开启NERDTree
+fun! VimEnterAutoCmd()
+    if g:TreeOnOpen
+        NERDTree
+        wincmd p     " 移动到前一个 (previous) (上次访问的) 窗口
+    else
+        wincmd p     " 移动到前一个 (previous) (上次访问的) 窗口
+    endif
+endf
+autocmd VimEnter * call VimEnterAutoCmd()
+
+" 进入新tab自动开启NERDTree
+fun! BufWinEnterAutoCmd()
+    if g:TreeOnOpen
+        " 若  tree插件未加载          或    （ 虽然加载tree插件 但 当前tab无tree窗口）
+        if exists('g:NERDTree')
+            if ! g:NERDTree.IsOpen()
+                NERDTreeMirror
+                wincmd p    " 移动到前一个 (previous) (上次访问的) 窗口
+            endif
+        else
+            NERDTreeMirror
+            wincmd p    " 移动到前一个 (previous) (上次访问的) 窗口
+        endif
+    endif
+endf
+autocmd BufWinEnter * call BufWinEnterAutoCmd()
+
+
+" -----------------------------------------------------------------
+let NERDSpaceDelims=1              " 让注释符与语句之间留一个空格
+let NERDCompactSexyComs=1          " 多行注释时样子更好看
+" let g:NERDCommentEmptyLines = 1    " 允许注释空白行
+let g:NERDToggleCheckAllLines = 1  " 当所选非空行皆被注释，toggle才解注，否则toggle加注
+
+
+
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
@@ -171,9 +384,6 @@ let g:NERDTreeIndicatorMapCustom = {
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" map <c-n> :NERDTreeToggle<CR>
-map <silent> - :NERDTreeToggle<CR>
-
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 
@@ -212,4 +422,9 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-
+" Mapping----------------------------------------
+" -----------------------------------------------
+" :norenmap <>
+" map <c-n> :NERDTreeToggle<CR>
+noremap <F3> :NERDTreeToggle<CR>
+inoremap <F3> <ESC>:NERDTreeToggle<CR>
