@@ -1,4 +1,4 @@
-snippet fkfor "my for ( ; ; ;){ ...  }"
+snippet fkfor "my for ( ; ; ;){ ... }"
 for (${1:}; ${2:}; ${3:}) {
     ${4:}
 }
@@ -22,3 +22,15 @@ snippet fkde "#define ..." b
 #define $0
 endsnippet
 
+snippet fksc "scanf(1, 2)"
+scanf("%${1:s}", ${2:s});
+endsnippet
+
+snippet fksw "switch( ... ){ ... }"
+switch (${1:}) {
+    case ${2:}: ${3:};
+	break;
+    default: ${4:;
+	}break;
+}
+endsnippet
