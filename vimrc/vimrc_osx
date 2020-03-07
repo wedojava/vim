@@ -105,9 +105,10 @@ autocmd FileType go nmap <leader>;o :GoDebugStepOut<CR>
 let g:go_debug_windows = {
             \ 'vars':       'leftabove 30vnew',
             \ 'stack':      'leftabove 20new',
-            \ 'goroutines': 'botright 10new',
+            \ 'goroutines': 'botright 10vnew',
             \ 'out':        'botright 5new',
   \ }
+let g:go_debug_breakpoint_sign_text = '◦>'
 
 " Personal settings
 " Colorscheme
