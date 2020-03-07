@@ -70,8 +70,44 @@ nnoremap <silent> <F5> :AsyncRun -cwd=$(VIM_FILEDIR) -mode=4 "$(VIM_FILEDIR)/$(V
 " F10：打开/关闭底部的 quickfix 窗口
 "------------------------------------韦一笑------------------------------
 
+
+" let g:go_list_type = "quickfix"
+"
+let g:go_version_warning = 1
+" let g:go_highlight_types = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_function_calls = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_extra_types = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_generate_tags = 1
+"
+" let g:godef_split=2
+
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
+" let g:go_def_mapping_enabled = 1
+" let g:go_code_completion_enabled = 1
+let g:go_debug_log_output = 'debuglineerr'
+" 直接通过 go run 执行当前文件
+autocmd FileType go nmap <leader>gb  <Plug>(go-build)
+autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+autocmd FileType go nmap <leader>;d :GoDebugStart<CR>
+autocmd FileType go nmap <leader>;r :GoDebugRestart<CR>
+autocmd FileType go nmap <leader>;b :GoDebugBreakpoint<CR>
+autocmd FileType go nmap <leader>;c :GoDebugContinue<CR>
+autocmd FileType go nmap <leader>;n :GoDebugNext<CR>
+autocmd FileType go nmap <leader>;i :GoDebugStep<CR>
+autocmd FileType go nmap <leader>;o :GoDebugStepOut<CR>
+
+let g:go_debug_windows = {
+            \ 'vars':       'leftabove 30vnew',
+            \ 'stack':      'leftabove 20new',
+            \ 'goroutines': 'botright 10new',
+            \ 'out':        'botright 5new',
+  \ }
 
 " Personal settings
 " Colorscheme
@@ -97,6 +133,7 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7" " 其他模式还是粗光标
 set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
 set cursorline
 set relativenumber
+" set number
 set wildmenu
 set softtabstop=4 shiftwidth=4 expandtab
 set lazyredraw
@@ -385,7 +422,8 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDAltDelims_java = 1
 
 " Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+let g:NERDCustomDelimiters = { 'c': { 'left': '//' } }
+" let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
 
 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
@@ -396,40 +434,49 @@ let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips#JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
+let g:ycm_key_list_select_completion = ['<C-n>', '<space>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
-function! g:UltiSnips_Reverse()
-  call UltiSnips#JumpBackwards()
-  if g:ulti_jump_backwards_res == 0
-    return "\<C-P>"
-  endif
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
-  return ""
-endfunction
-
-
-if !exists("g:UltiSnipsJumpForwardTrigger")
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
-endif
-if !exists("g:UltiSnipsJumpBackwardTrigger")
-  let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-endif
-
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
-au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
+" function! g:UltiSnips_Complete()
+"   call UltiSnips#ExpandSnippet()
+"   if g:ulti_expand_res == 0
+"     if pumvisible()
+"       return "\<C-n>"
+"     else
+"       call UltiSnips#JumpForwards()
+"       if g:ulti_jump_forwards_res == 0
+"         return "\<TAB>"
+"       endif
+"     endif
+"   endif
+"   return ""
+" endfunction
+"
+" function! g:UltiSnips_Reverse()
+"   call UltiSnips#JumpBackwards()
+"   if g:ulti_jump_backwards_res == 0
+"     return "\<C-P>"
+"   endif
+"
+"   return ""
+" endfunction
+"
+"
+" if !exists("g:UltiSnipsJumpForwardTrigger")
+"   let g:UltiSnipsJumpForwardTrigger = "<tab>"
+" endif
+" if !exists("g:UltiSnipsJumpBackwardTrigger")
+"   let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" endif
+"
+" au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
+" au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 
 " Mapping----------------------------------------
 " -----------------------------------------------
