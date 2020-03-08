@@ -94,12 +94,13 @@ let g:go_debug_log_output = 'debuglineerr'
 autocmd FileType go nmap <leader>gb  <Plug>(go-build)
 autocmd FileType go nmap <leader>gr  <Plug>(go-run)
 autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+autocmd FileType go nmap <leader>;i :GoImports<CR>
 autocmd FileType go nmap <leader>;d :GoDebugStart<CR>
 autocmd FileType go nmap <leader>;r :GoDebugRestart<CR>
 autocmd FileType go nmap <leader>;b :GoDebugBreakpoint<CR>
 autocmd FileType go nmap <leader>;c :GoDebugContinue<CR>
 autocmd FileType go nmap <leader>;n :GoDebugNext<CR>
-autocmd FileType go nmap <leader>;i :GoDebugStep<CR>
+autocmd FileType go nmap <leader>;s :GoDebugStep<CR>
 autocmd FileType go nmap <leader>;o :GoDebugStepOut<CR>
 
 let g:go_debug_windows = {
@@ -468,7 +469,7 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 "   return ""
 " endfunction
 "
-"
+" "
 " if !exists("g:UltiSnipsJumpForwardTrigger")
 "   let g:UltiSnipsJumpForwardTrigger = "<tab>"
 " endif
