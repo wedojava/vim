@@ -1,5 +1,6 @@
 call plug#begin('~/.vim/plugged')
 
+" Plug 'tpope/vim-surround'
 Plug 'junegunn/vim-easy-align'
 " diw 删除光标所在单词，ciw 改写单词，vip 选中段落等，ci"/ci( 改写引号/括号中的内容。
 " i, 和 a, ：参数对象，写代码一半在修改，现在可以用 di, 或 ci, 一次性删除/改写当前参数
