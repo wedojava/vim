@@ -1,4 +1,4 @@
-# For Mac OS X
+# For Mac OS X Macvim
 
 ```
 cd ~/git && git clone https://github.com/wedojava/vim.git
@@ -8,6 +8,13 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
+# For Linux Neovim
+
+```
+cd ~/Git && git clone https://github.com/wedojava/vim.git
+ln -s ~/Git/vim/vimrc/init.vim ~/.config/nvim/init.vim
+ln -s ~/git/vim/UltiSnips ~/.vim/UltiSnips
+```
 
 
 # For Windows
