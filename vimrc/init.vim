@@ -95,14 +95,16 @@ let g:go_debug_log_output = 'debuglineerr'
 autocmd FileType go nmap <leader>gb  <Plug>(go-build)
 autocmd FileType go nmap <leader>gr  <Plug>(go-run)
 autocmd FileType go nmap <leader>gt  <Plug>(go-test)
-autocmd FileType go nmap <leader>;i :GoImports<CR>
-autocmd FileType go nmap <leader>;d :GoDebugStart<CR>
-autocmd FileType go nmap <leader>;r :GoDebugRestart<CR>
-autocmd FileType go nmap <leader>;b :GoDebugBreakpoint<CR>
-autocmd FileType go nmap <leader>;c :GoDebugContinue<CR>
-autocmd FileType go nmap <leader>;n :GoDebugNext<CR>
-autocmd FileType go nmap <leader>;s :GoDebugStep<CR>
-autocmd FileType go nmap <leader>;o :GoDebugStepOut<CR>
+autocmd FileType go nmap <leader>gf :GoFmt<CR>
+autocmd FileType go nmap <leader>gi :GoImports<CR>
+autocmd FileType go nmap <leader>dd :GoDebugStart<CR>
+autocmd FileType go nmap <leader>d0 :GoDebugStop<CR>
+autocmd FileType go nmap <leader>d6 :GoDebugRestart<CR>
+autocmd FileType go nmap <leader>db :GoDebugBreakpoint<CR>
+autocmd FileType go nmap <leader>cc :GoDebugContinue<CR>
+autocmd FileType go nmap <leader>nn :GoDebugNext<CR>
+autocmd FileType go nmap <leader>ss :GoDebugStep<CR>
+autocmd FileType go nmap <leader>oo :GoDebugStepOut<CR>
 
 let g:go_debug_windows = {
             \ 'vars':       'leftabove 30vnew',
