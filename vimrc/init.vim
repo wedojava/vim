@@ -32,6 +32,7 @@ Plug 'skywind3000/asyncrun.vim'
 "------------------------------------韦一笑------------------------------
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'rhysd/vim-clang-format'
+Plug 'puremourning/vimspector'
 " Initialize plugin system
 call plug#end()
 
@@ -514,3 +515,8 @@ autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
 nmap <Leader>C :ClangFormatAutoToggle<CR>
 
 set pastetoggle=<F12>
+
+" let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+" packadd! vimspector
+syntax enable
+" filetype plugin indent on

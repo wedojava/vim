@@ -1,0 +1,36 @@
+{
+  "configurations": {
+    "python: launch": {
+      "adapter": "debugpy",
+      "configuration": {
+        "type": "python",
+        "request": "launch",
+        "cwd": "${workspaceRoot}",
+        "stopOnEntry": true,
+        "externalConsole": false,
+        "console": "integratedTerminal",
+        "program": "${file}"
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "",
+          "uncaught": "Y"
+        }
+      }
+    },
+    "gdb: launch": {
+      "adapter": "vscode-cpptools",
+      "configuration": {
+        "name": "gdb: Launch",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${fileDirname}/${fileBasenameNoExtension}.out",
+        "args": [],
+        "cwd": "${workspaceRoot}",
+        "console": "integratedTerminal",
+        "externalConsole": false,
+        "MIMode": "gdb"
+      }
+    }
+  }
+}

@@ -27,6 +27,13 @@ git clone https://github.com/wedojava/vim.git
 
 # Supplement
 
+## about vimspector
+
+```
+ln -s ~/Git/vim/.vimspector.json ~/.vimspector.json
+~/.vim/plugged/vimspector/install_gadget.py --enable-<language>
+```
+
 ## get snippet
 
 go:
