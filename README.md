@@ -2,8 +2,8 @@
 
 ```
 cd ~/git && git clone https://github.com/wedojava/vim.git
-ln -s ~/git/vim/UltiSnips ~/.vim/UltiSnips
-ln -s ~/git/vim/vimrc ~/.vim/vimrc
+ln -s ~/Git/vim/UltiSnips ~/.vim/UltiSnips
+ln -s ~/Git/vim/vimrc/vimrc_osx ~/.vim/vimrc
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
@@ -13,7 +13,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 ```
 cd ~/Git && git clone https://github.com/wedojava/vim.git
 ln -s ~/Git/vim/vimrc/init.vim ~/.config/nvim/init.vim
-ln -s ~/git/vim/UltiSnips ~/.vim/UltiSnips
+ln -s ~/Git/vim/UltiSnips ~/.vim/UltiSnips
 ```
 
 
