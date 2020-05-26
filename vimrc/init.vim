@@ -46,7 +46,7 @@ nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
 " F9 为编译单文件:
 nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT).out" <cr>
 " F5 运行：
-" nnoremap <silent> <S-F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT).out" <cr>
+nnoremap <silent> <S-F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VIM_FILENOEXT).out" <cr>
 " 用 “<root>” 或者 “$(VIM_ROOT)”来表示项目所在路径，放一个空的 .root
 " 文件到你的项目目录下就行了.
 " F7 编译整个项目：
