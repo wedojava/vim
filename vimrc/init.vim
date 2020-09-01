@@ -22,7 +22,6 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'preservim/nerdcommenter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 "------------------------------------韦一笑------------------------------
@@ -586,6 +585,11 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+
+
+
+
+" :CocInstall coc-snippets install coc.nvim snippet
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
 
