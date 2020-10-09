@@ -31,6 +31,7 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'rhysd/vim-clang-format'
+Plug 'majutsushi/tagbar'
 " Initialize plugin system
 call plug#end()
 
@@ -51,7 +52,7 @@ nnoremap <silent> <S-F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VI
 nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
 let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml']
 " F8 运行当前项目：
-nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
+" nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
 " F6 执行测试(你的 makefile 中需要定义怎么 run)：
 nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
 " 如果你使用了 cmake 的话，还可以照葫芦画瓢
@@ -138,7 +139,7 @@ set cursorline
 set relativenumber
 " set number
 set wildmenu
-set softtabstop=4 shiftwidth=4 expandtab
+" set softtabstop=4 shiftwidth=4 expandtab
 set lazyredraw
 set autochdir                            " 自动切换当前目录为当前文件所在的目录
 " ,<space> to close search hilight
@@ -611,3 +612,8 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<tab>'
+
+" 设置tagbar的窗口宽度
+let g:tagbar_width=30
+" 映射Tagbar的快捷键,按F8自动打开
+map <F8> :TagbarToggle<CR>
