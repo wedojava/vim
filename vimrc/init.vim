@@ -53,7 +53,7 @@ nnoremap <silent> <S-F5> :AsyncRun -raw -cwd=$(VIM_FILEDIR) "$(VIM_FILEDIR)/$(VI
 nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
 let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs', 'build.xml']
 " F8 运行当前项目：
-nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
+" nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
 " F6 执行测试(你的 makefile 中需要定义怎么 run)：
 nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
 " 如果你使用了 cmake 的话，还可以照葫芦画瓢
