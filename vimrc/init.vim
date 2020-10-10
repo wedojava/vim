@@ -30,6 +30,7 @@ Plug 'skywind3000/asyncrun.vim'
 "------------------------------------韦一笑------------------------------
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'majutsushi/tagbar'
 Plug 'rhysd/vim-clang-format'
 " Plug 'puremourning/vimspector'
 " Initialize plugin system
@@ -617,3 +618,8 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<tab>'
+
+" 设置tagbar的窗口宽度
+let g:tagbar_width=30
+" 映射Tagbar的快捷键,按F8自动打开
+map <F8> :TagbarToggle<CR>
