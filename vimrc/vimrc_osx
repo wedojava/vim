@@ -29,7 +29,7 @@ Plug 'skywind3000/quickmenu.vim'
 Plug 'skywind3000/asyncrun.vim'
 "------------------------------------韦一笑------------------------------
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'rhysd/vim-clang-format'
 Plug 'majutsushi/tagbar'
 " Initialize plugin system
@@ -119,7 +119,8 @@ let g:go_debug_breakpoint_sign_text = '◦>'
 set guifont=Fira\ Code:h12
 " This is hybrid_material
 set background=dark
-colorscheme hybrid_material
+colorscheme gruvbox
+" colorscheme hybrid_material
 let g:enable_bold_font = 1
 let g:enable_italic_font = 1
 let g:hybrid_transparent_background = 1
