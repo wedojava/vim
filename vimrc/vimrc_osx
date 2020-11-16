@@ -717,5 +717,13 @@ autocmd FileType markdown nmap <leader>ms :MarkdownPreviewStop<CR>
 autocmd FileType markdown nmap <leader>mt :MarkdownPreviewToggle<CR>
 
 filetype plugin on
+" 按 F5 执行当前 Python 代码"
+map <F5> :call PRUN()<CR>
+func! PRUN()
+    exec "w"
+    if &filetype == 'python'
+        exec "!python3 %"
+    endif
+endfunc
 autocmd FileType python nmap <leader>pf :Autopep8<CR>
 autocmd FileType json nmap <leader>jf :%!python3 -m json.tool<CR>
