@@ -61,7 +61,7 @@ nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
 nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
 " -mode=4 选项可以跟 Visual Studio 执行命令行工具一样，弹出一个新的 cmd.exe窗口来运行程序或者项目
 " Windows 下使用 GVim 的话，可以弹出新的 cmd.exe 窗口来运行刚才的程序：
-nnoremap <silent> <F5> :AsyncRun -cwd=$(VIM_FILEDIR) -mode=4 "$(VIM_FILEDIR)/$(VIM_FILENOEXT).out" <cr>
+" nnoremap <silent> <F5> :AsyncRun -cwd=$(VIM_FILEDIR) -mode=4 "$(VIM_FILEDIR)/$(VIM_FILENOEXT).out" <cr>
 " nnoremap <silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>
 " F4：使用 cmake 生成 Makefile
 " F5：单文件：运行
@@ -711,6 +711,18 @@ let g:mkdp_port = ''
 " ${name} will be replace with the file name
 let g:mkdp_page_title = '「${name}」'
 
-nmap <leader>mp :MarkdownPreview<CR>
-nmap <leader>ms :MarkdownPreviewStop<CR>
-nmap <leader>mt :MarkdownPreviewToggle<CR>
+autocmd FileType markdown nmap <leader>mp :MarkdownPreview<CR>
+autocmd FileType markdown nmap <leader>ms :MarkdownPreviewStop<CR>
+autocmd FileType markdown nmap <leader>mt :MarkdownPreviewToggle<CR>
+
+filetype plugin on
+" 按 F5 执行当前 Python 代码"
+map <F5> :call PRUN()<CR>
+func! PRUN()
+    exec "w"
+    if &filetype == 'python'
+        exec "!python3 %"
+    endif
+endfunc
+autocmd FileType python nmap <leader>pf :Autopep8<CR>
+autocmd FileType json nmap <leader>jf :%!python3 -m json.tool<CR>
