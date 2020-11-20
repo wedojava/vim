@@ -67,7 +67,7 @@ robocopy ~\vimfiles\colors colors *
 
 
 
-​        YCM 实际上最难安装的插件, 我最近在 Mac Windows Linux 上都搭建使用安装过并且成功运行 C/C++ Go 的功能, 体验到了一些 **过坑哲学** :
+YCM 实际上最难安装的插件, 我最近在 Mac Windows Linux 上都搭建使用安装过并且成功运行 C/C++ Go 的功能, 体验到了一些 **过坑哲学** :
 
 1. 如果你发现别人都是好的, 只有你出问题了, 那么考虑更换你的环境. 比如, 如果你要测试这款插件, 你怎么测? 从官网下载 python 安装, 或者最传统的 apt yum brew 的方式去安装, 不用什么版本控制软件.
 2. 沿用这个思路以及我们常说的重启大法好的说法, 如果你不是一定要找出插件安装的问题在哪里, 最简单的办法, 减少错误可能发生的条件: 排除其他你的个性安装方式或者其他独特安装办法.
@@ -77,3 +77,26 @@ robocopy ~\vimfiles\colors colors *
    1. Macvim 最好用, 所以苹果系统最好用, 电脑最好用. 苹果的确好用, 好稳, 好稳 !!!
    2. Gvim better than Neovim on Windows, 真的如此, 至少 Neovim 打开就是比 Gvim 慢 2020年2月23日我这么说的, 近期应该没什么变化了.
    3.  Neovim's fell good on Linux, you're worth it!
+
+
+coc-nvim 还是很推荐的，确实如其作者大大所说，给人以vscode一般的体验
+
+内置的CocList 提供一些模糊查找路径，大纲，符号表等 取代了 fzf等同类插件；
+
+coc-explorer 取代了 NERDTree，defx；
+
+coc-pairs 取代了 autopairs；
+
+coc-smartf 取代了 vim-easymotion；
+
+coc-highlight 取代了 vim-cursorline，并提供了颜色板功能（不知道怎么描述，就是可以像ide一样在描述颜色的地方弹出调色窗口
+
+coc-java/ccls/python/rls 取代了那堆各有缺点的补全插件，
+
+coc-pyright 提供 python 静态类型检查,
+……
+配置也没那么复杂，引入新的配置文件 全局/局部coc-settings.json,就像vscode那样，安装coc-json后提供完整的设置模糊补全，
+
+而这些插件只需要在ex中 :CocInstall 插件名 即可
+
+你甚至可以安装 coc-marketplace 搜索安装更多插件
